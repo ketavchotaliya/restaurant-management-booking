@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import RestaurantRoutes from '../components/restaurant';
+import RestaurantRoutes from '../components/reservation';
 const router = Router();
 /**
  * Init All routes here
