@@ -8,8 +8,8 @@ import { logger } from '../utils/logger';
 class RestaurantMiddleware {
   async validateRestaurant(req: CustomRequest, res: CustomResponse, next: NextFunction) {
     try {
-      const response = await restaurant.getRestaurantDetails(Number(req.body.restaurant_id));
-      req.custom.restaurant = response;
+      const response = await restaurant.getRestaurantDetails([req.body.restaurant_id]);
+      req.custom.restaurant = response[0];
       next();
     } catch (e) {
       if (e.statusCode !== undefined && e.statusMessage !== undefined) {

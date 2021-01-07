@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { createValidationResponse } from '../../utils/helper';
-import { isEmpty, isNumber, matches } from '../../utils/validator';
+import { isBoolean, isEmpty, isJSON, isNumber, isString, matches } from '../../utils/validator';
 const TIME_VALIDATION_REGEX = /(\d{1,2})\:(\d{1,2})\:(\d{1,2})/;
 import moment from 'moment';
 
@@ -57,6 +57,44 @@ class ReservationValidations {
       errors.total_tables_to_book = res.__('BOOKING.total_tables_to_book.required');
     } else if (!isNumber(total_tables_to_book)) {
       errors.total_tables_to_book = res.__('BOOKING.total_tables_to_book.number');
+    }
+
+    if (Object.keys(errors).length > 0) {
+      createValidationResponse(res, errors);
+    } else {
+      next();
+    }
+  }
+
+  bookingList(req: Request, res: Response, next: NextFunction) {
+    const { authorization } = req.headers;
+    const { search, pageNumber, recordsPerPage, sortOrder, sortBy, showAll } = req.body;
+    const errors: any = {};
+
+    if (isEmpty(authorization)) {
+      errors.authorization = res.__('VALIDATIONS.COMMON.authorization.required');
+    }
+
+    if (!isEmpty(search) && !isJSON(search)) {
+      errors.search = res.__('VALIDATIONS.COMMON.search.json');
+    }
+    if (!isEmpty(pageNumber) && !isNumber(pageNumber)) {
+      errors.pageNumber = res.__('VALIDATIONS.COMMON.pageNumber.valid');
+    } else if (!isEmpty(pageNumber) && Number(pageNumber) <= 0) {
+      errors.pageNumber = res.__('VALIDATIONS.COMMON.pageNumber.valid');
+    }
+    if (!isEmpty(recordsPerPage) && !isNumber(recordsPerPage)) {
+      errors.recordsPerPage = res.__('VALIDATIONS.COMMON.recordsPerPage.valid');
+    }
+    if (!isEmpty(sortOrder) && !isString(sortOrder)) {
+      errors.sortOrder = res.__('VALIDATIONS.COMMON.sortOrder.valid');
+    }
+    if (!isEmpty(sortBy) && !isString(sortBy)) {
+      errors.sortBy = res.__('VALIDATIONS.COMMON.sortBy.valid');
+    }
+
+    if (!isEmpty(showAll) && !isBoolean(showAll)) {
+      errors.showAll = res.__('VALIDATIONS.COMMON.showAll.valid');
     }
 
     if (Object.keys(errors).length > 0) {

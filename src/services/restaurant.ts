@@ -3,13 +3,13 @@ import { HOST, RESTAURANT } from './config';
 const host = HOST().RESTAURANT;
 
 class Restaurant {
-  public async getRestaurantDetails(restaurantId: number): Promise<any> {
+  public async getRestaurantDetails(restaurantIds: number[]): Promise<any> {
     try {
-      const uri = `${host}${RESTAURANT.GET_RESTAURANT(restaurantId)}`;
+      const uri = `${host}${RESTAURANT.GET_RESTAURANTS}`;
       const response = await got(uri, {
-        method: 'GET',
+        method: 'POST',
         json: true,
-        body: {},
+        body: restaurantIds,
       });
       return response.body.payload;
     } catch (error) {

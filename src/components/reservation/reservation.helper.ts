@@ -1,20 +1,19 @@
-import { Op } from 'sequelize';
 import { Order } from '../../environment';
 
 class ReservationHelper {
   getReservationOrder(sortBy: string, sortOrder: string): Order {
     let orderBy, sortField;
     if (sortBy) {
-      if (['country_name', 'code', 'dial_code', 'is_active'].includes(sortBy)) {
+      if (['reservation_date', 'reservation_start_time', 'reservation_end_time', 'is_cancelled'].includes(sortBy)) {
         orderBy = [[sortBy, sortOrder]];
         sortField = sortBy;
       } else {
-        orderBy = [['country_name', sortOrder]];
-        sortField = 'country_name';
+        orderBy = [['created_at', sortOrder]];
+        sortField = 'created_at';
       }
     } else {
-      orderBy = [['country_name', sortOrder]];
-      sortField = 'country_name';
+      orderBy = [['created_at', sortOrder]];
+      sortField = 'created_at';
     }
     return { orderBy, sortField };
   }
@@ -24,12 +23,17 @@ class ReservationHelper {
     for (var key in filters) {
       const data: any = filters[key];
 
-      if (['country_name', 'code', 'dial_code'].includes(key)) {
+      if (key === 'reservation_date') {
         condition.push({
-          [key]: { [Op.like]: `%${data}%` },
+          [key]: new Date(data),
         });
       }
-      if (key === 'is_active') {
+      if (['reservation_start_time', 'reservation_end_time'].includes(key)) {
+        condition.push({
+          [key]: data,
+        });
+      }
+      if (key === 'is_cancelled') {
         if (+data === 0 || +data === 1) {
           condition.push({
             [key]: data,

@@ -7,10 +7,29 @@
       },
       "rowNumber": {
         "valid": "rowNumber must not be zero."
+      },
+      "search": {
+        "json": "The search field must be a valid JSON"
+      },
+      "pageNumber": {
+        "valid": "Page Number is invalid"
+      },
+      "recordsPerPage": {
+        "valid": "Records Per page is invalid"
+      },
+      "sortOrder": {
+        "valid": "invalid value in sortOrder"
+      },
+      "sortBy": {
+        "valid": "invalid value in sortBy"
+      },
+      "showAll": {
+        "valid": "invalid value in showAll"
       }
     }
   },
   "BOOKING": {
+    "booking_lists": "Booking list available",
     "restaurant_id": {
       "required": "Restaurant Id is required",
       "number": "Restaurant Id should be valid number"

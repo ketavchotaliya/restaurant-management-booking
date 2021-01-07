@@ -38,6 +38,16 @@ class ReservationModel {
     }
   }
 
+  async getCount(whereObj: any): Promise<any> {
+    try {
+      return await Reservation.count({
+        where: whereObj,
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async updateOne(
     whereObj: {},
     reservationObj: ReservationType,
@@ -65,7 +75,7 @@ class ReservationModel {
     }
   }
 
-  async getMany(condition: any = {}, attributes: string[] = [], other: object = {}): Promise<ReservationType[]> {
+  async getMany(condition: any = {}, attributes: string[] = [], other: object = {}): Promise<any[]> {
     try {
       return await Reservation.findAll({
         attributes: attributes.length > 0 ? attributes : undefined,
