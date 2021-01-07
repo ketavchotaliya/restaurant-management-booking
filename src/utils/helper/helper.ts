@@ -5,7 +5,7 @@ import STATUS_CODES from 'http-status-codes';
 import uuid from 'uuid';
 import { logger } from '../logger';
 const BCRYPT_SALT: any = process.env.BCRYPT_SALT;
-
+import moment from 'moment';
 /**
  * @description Create Response
  * @param {Object} res
@@ -192,4 +192,16 @@ export const generatePassword = (length: number) => {
     }
   }
   return pwd;
+};
+
+export const checkOverlap = (openTIme: any, closeTIme: any, startTime: any, endTime: any) => {
+  if (
+    moment(startTime, 'HH:mm') >= moment(openTIme, 'HH:mm') &&
+    moment(endTime, 'HH:mm') <= moment(closeTIme, 'HH:mm')
+  ) {
+    // return true if start and end time inside the open and close time
+    return false;
+  } else {
+    return true;
+  }
 };
