@@ -1,5 +1,5 @@
 {
-  "name": "restaurant-management-owner",
+  "name": "restaurant-management-booking",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,15 +12,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ketavchotaliya/restaurant-management-owner.git"
+    "url": "git+https://github.com/ketavchotaliya/restaurant-management-booking.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ketavchotaliya/restaurant-management-owner.git/issues"
+    "url": "https://github.com/ketavchotaliya/restaurant-management-booking.git/issues"
   },
-  "homepage": "https://github.com/ketavchotaliya/restaurant-management-owner.git#readme",
+  "homepage": "https://github.com/ketavchotaliya/restaurant-management-booking.git#readme",
   "devDependencies": {
     "concurrently": "^4.1.0",
     "nodemon": "^1.19.1",
@@ -40,10 +40,12 @@
     "@types/dotenv": "^6.1.1",
     "@types/errorhandler": "0.0.32",
     "@types/express": "^4.17.0",
+    "@types/express-fileupload": "^1.1.0",
     "@types/got": "^9.6.2",
     "@types/i18n": "^0.8.6",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/lodash": "^4.14.149",
+    "@types/moment": "^2.13.0",
     "@types/node": "^12.0.8",
     "@types/sequelize": "^4.28.9",
     "@types/sharp": "^0.25.0",
@@ -56,14 +58,15 @@
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
+    "express-fileupload": "^1.1.5",
     "form-data": "^3.0.0",
     "got": "^9.6.0",
     "http-status-codes": "^1.4.0",
     "i18n": "^0.8.5",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
-    "mysql2": "^2.2.5",
     "moment": "^2.24.0",
+    "mysql2": "^2.2.5",
     "sequelize": "^5.21.2",
     "sharp": "^0.25.2",
     "validator": "^11.1.0",

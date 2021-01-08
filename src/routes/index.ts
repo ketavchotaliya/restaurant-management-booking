@@ -1,11 +1,11 @@
 import { Application } from 'express';
 
-import RestaurantRoute from './restaurant.route';
+import ReservationRoute from './reservation.route';
 
 /**
  * Init All routes here
  */
 export default (app: Application) => {
   // Provider Routes
-  app.use('/restaurant', RestaurantRoute);
+  app.use('/reservation', ReservationRoute);
 };
