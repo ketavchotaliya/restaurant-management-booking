@@ -133,6 +133,28 @@ class ReservationController {
       createResponse(res, STATUS_CODES.INTERNAL_SERVER_ERROR, res.__('SERVER_ERROR'));
     }
   }
+
+  async cancelBooking(req: CustomRequest, res: CustomResponse) {
+    try {
+      const { reservation_id } = req.body;
+
+      // cancel reservation
+      await ReservationModel.updateOne(
+        {
+          reservation_id,
+        },
+        {
+          is_cancelled: 1,
+          updated_at: new Date(),
+        }
+      );
+
+      createResponse(res, STATUS_CODES.OK, 'Booking cancelled');
+    } catch (e) {
+      logger.error(__filename, 'cancelBooking', req.custom.uuid, 'bookTable', e);
+      createResponse(res, STATUS_CODES.INTERNAL_SERVER_ERROR, res.__('SERVER_ERROR'));
+    }
+  }
 }
 
 export default new ReservationController();

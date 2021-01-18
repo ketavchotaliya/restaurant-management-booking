@@ -51,6 +51,10 @@
       "required": "Booking End Time is required",
       "valid": "Booking end time must be valid time",
       "less_then_start_time": "Booking end time must not be less than Booking start time"
+    },
+    "reservation_id": {
+      "required": "Booking ID is required",
+      "valid": "Booking ID must have a valid value"
     }
   }
 }
