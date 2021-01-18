@@ -103,6 +103,28 @@ class ReservationValidations {
       next();
     }
   }
+
+  cancelBooking(req: Request, res: Response, next: NextFunction) {
+    const { authorization } = req.headers;
+    const { reservation_id } = req.body;
+    const errors: any = {};
+
+    if (isEmpty(authorization)) {
+      errors.authorization = res.__('VALIDATIONS.COMMON.authorization.required');
+    }
+
+    if (isEmpty(reservation_id)) {
+      errors.reservationId = res.__('VALIDATIONS.BOOKING.reservation_id.required');
+    } else if (!isNumber(reservation_id)) {
+      errors.reservationId = res.__('VALIDATIONS.BOOKING.reservation_id.valid');
+    }
+
+    if (Object.keys(errors).length > 0) {
+      createValidationResponse(res, errors);
+    } else {
+      next();
+    }
+  }
 }
 
 export default new ReservationValidations();

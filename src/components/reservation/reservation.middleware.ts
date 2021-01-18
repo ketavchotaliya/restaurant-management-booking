@@ -1,5 +1,6 @@
 import { NextFunction } from 'express';
 import STATUS_CODES from 'http-status-codes';
+import moment from 'moment';
 import { Op } from 'sequelize';
 import { CustomRequest, CustomResponse } from '../../environment';
 import { checkOverlap, createResponse } from '../../utils/helper';
@@ -109,6 +110,45 @@ class ReservationMiddleware {
       }
     } catch (e) {
       logger.error(__filename, 'checkAvailability', '', 'Error in checkAvailability', e);
+      createResponse(res, STATUS_CODES.INTERNAL_SERVER_ERROR, 'Internal server error');
+    }
+  }
+
+  async validateCancelBooking(req: CustomRequest, res: CustomResponse, next: NextFunction) {
+    try {
+      const { reservation_id } = req.body;
+      const loggedInUserId = req.headers.logged_in_user_id;
+
+      // get reservation details
+      const reservationDetails = await ReservationModel.getSingle({
+        reservation_id,
+        user_id: loggedInUserId,
+      });
+
+      if (!reservationDetails) {
+        createResponse(res, STATUS_CODES.NOT_FOUND, 'Reservation details not found');
+        return;
+      }
+
+      if (reservationDetails?.is_cancelled === 1) {
+        createResponse(res, STATUS_CODES.UNPROCESSABLE_ENTITY, 'Reservation already cancelled');
+        return;
+      }
+
+      let bookingTime: any = moment(
+        reservationDetails.reservation_date + ' ' + reservationDetails.reservation_start_time
+      );
+      const currentTime = moment();
+
+      // check reservation time is gone or not
+      if (bookingTime <= currentTime) {
+        createResponse(res, STATUS_CODES.UNPROCESSABLE_ENTITY, 'Reservation date is expired');
+        return;
+      }
+
+      next();
+    } catch (e) {
+      logger.error(__filename, 'validateCancelBooking', '', 'Error in validateCancelBooking', e);
       createResponse(res, STATUS_CODES.INTERNAL_SERVER_ERROR, 'Internal server error');
     }
   }

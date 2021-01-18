@@ -18,12 +18,13 @@ router.post(
 );
 
 // list my booking
-router.post(
-  '/list',
-  ReservationValidations.bookingList,
-  (req: Request, res: Response) => {
-    ReservationController.bookingList(req, res);
-  }
-);
+router.post('/list', ReservationValidations.bookingList, (req: Request, res: Response) => {
+  ReservationController.bookingList(req, res);
+});
+
+// cancel booking
+router.put('/cancel-booking', ReservationValidations.cancelBooking, ReservationMiddleware.validateCancelBooking, (req: Request, res: Response) => {
+  ReservationController.cancelBooking(req, res);
+});
 
 export default router;
